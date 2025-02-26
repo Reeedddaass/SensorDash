@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sensor Dashboard</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="h-screen bg-slate-400">
+
+        <nav class="bg-slate-200 px-6 py-4 shadow-lg">
+            <div class="container mx-auto flex justify-between items-center">
+        
+                <p class="text-2xl font-bold text-slate-500">Dashboard<p>
+
+                <button id="menu-btn" class="md:hidden text-slate-500 hover:text-slate-800 focus:outline-none">
+                    ☰
+                </button>
+
+                <ul class="hidden md:flex space-x-6">
+                    <li>
+                        <a href="index.html" class="text-slate-500 hover:text-slate-800 transition-all">Charts</a>
+                    </li>
+                    <li>
+                        <a href="table.html" class="text-slate-500 hover:text-slate-800 transition-all">Table</a>
+                    </li>
+                </ul>
+
+                <ul id="mobile-menu" class="absolute top-16 left-0 w-full bg-slate-200 hidden flex-col space-y-4 p-4 md:hidden">
+                    <li>
+                        <a href="index.html" class="block text-slate-500 hover:text-slate-800">Charts</a>
+                    </li>
+                    <li>
+                        <a href="table.html" class="block text-slate-500 hover:text-slate-800">Table</a>
+                    </li>
+                </ul>
+            </div>
+            <script>
+                document.getElementById('menu-btn').addEventListener('click', function () {
+                    document.getElementById('mobile-menu').classList.toggle('hidden');
+                });
+            </script>
+        </nav>
+
+        <div class="text-gray-900 flex flex-col items-center py-10">
+
+            <div class="flex flex-wrap md:flex-nowrap justify-center gap-6 w-full max-w-5xl">
+                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
+                    <canvas id="tempChart" class="w-full h-64"></canvas>
+                </div>
+        
+                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
+                    <canvas id="humiChart" class="w-full h-64"></canvas>
+                </div>
+            </div>
+        
+            <script type="module" src="./js/chart.js"></script>
+        
+        </div>
+        
+    </body>
+</html>

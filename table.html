@@ -10,11 +10,8 @@
 
         <nav class="bg-slate-200 px-6 py-4 shadow-lg">
             <div class="container mx-auto flex justify-between items-center">
-        
                 <p class="text-2xl font-bold text-slate-500">Dashboard</p>
-
                 <button id="menu-btn" class="md:hidden text-slate-500 hover:text-slate-800 focus:outline-none">☰</button>
-
                 <ul class="hidden md:flex space-x-6">
                     <li>
                         <a href="index.html" class="text-slate-500 hover:text-slate-800 transition-all">Charts</a>
@@ -23,7 +20,6 @@
                         <a href="table.html" class="text-slate-500 hover:text-slate-800 transition-all">Table</a>
                     </li>
                 </ul>
-
                 <ul id="mobile-menu" class="absolute top-16 left-0 w-full bg-slate-200 hidden flex-col space-y-4 p-4 md:hidden">
                     <li>
                         <a href="index.html" class="block text-slate-500 hover:text-slate-800">Charts</a>
@@ -41,28 +37,26 @@
         </nav>
 
         <div class="text-gray-900 flex flex-col items-center py-10">
-            <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full border border-gray-300">
-                        <thead class="bg-blue-400 text-white">
-                            <tr>
-                                <th class="py-3 px-4 cursor-pointer" onclick="sortTable('timestamp')">
-                                    Timestamp <span id="timestamp-sort">^</span>
-                                </th>
-                                <th class="py-3 px-4 cursor-pointer" onclick="sortTable('temperature')">
-                                    Temperature (°C) <span id="temperature-sort"></span>
-                                </th>
-                                <th class="py-3 px-4 cursor-pointer" onclick="sortTable('humidity')">
-                                    Humidity (%) <span id="humidity-sort"></span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="data-table" class="text-center bg-white divide-y divide-gray-200"></tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="overflow-x-auto w-full max-w-4xl p-6">
+                <table class="min-w-full bg-white border rounded-lg shadow-md overflow-hidden">
+                    <thead class="bg-slate-600 text-white font-semibold">
+                        <tr class="border border-slate-600">
+                            <th class="py-4 px-6 cursor-pointer text-left border border-slate-700" onclick="sortTable('timestamp')">
+                                Timestamp <span id="timestamp-sort" class="ml-2 text-sm">▼</span>
+                            </th>
+                            <th class="py-4 px-6 cursor-pointer text-left border border-slate-700" onclick="sortTable('temperature')">
+                                Temperature (°C) <span id="temperature-sort" class="ml-2 text-sm">▲</span>
+                            </th>
+                            <th class="py-4 px-6 cursor-pointer text-left border border-slate-700" onclick="sortTable('humidity')">
+                                Humidity (%) <span id="humidity-sort" class="ml-2 text-sm">▲</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table" class="text-center divide-y divide-slate-700"> </tbody>
+                </table>
+            </div>            
         </div>
-
+        
         <script type="module" src="./js/table.js"></script>
 
     </body>

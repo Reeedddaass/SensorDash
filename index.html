@@ -11,13 +11,8 @@
 
         <nav class="bg-slate-200 px-6 py-4 shadow-lg">
             <div class="container mx-auto flex justify-between items-center">
-        
-                <p class="text-2xl font-bold text-slate-500">Dashboard<p>
-
-                <button id="menu-btn" class="md:hidden text-slate-500 hover:text-slate-800 focus:outline-none">
-                    ☰
-                </button>
-
+                <p class="text-2xl font-bold text-slate-500">Dashboard</p>
+                <button id="menu-btn" class="md:hidden text-slate-500 hover:text-slate-800 focus:outline-none">☰</button>
                 <ul class="hidden md:flex space-x-6">
                     <li>
                         <a href="index.html" class="text-slate-500 hover:text-slate-800 transition-all">Charts</a>
@@ -26,7 +21,6 @@
                         <a href="table.html" class="text-slate-500 hover:text-slate-800 transition-all">Table</a>
                     </li>
                 </ul>
-
                 <ul id="mobile-menu" class="absolute top-16 left-0 w-full bg-slate-200 hidden flex-col space-y-4 p-4 md:hidden">
                     <li>
                         <a href="index.html" class="block text-slate-500 hover:text-slate-800">Charts</a>
@@ -43,6 +37,13 @@
             </script>
         </nav>
 
+        <div class="flex space-x-2 p-4 bg-slate-600 text-slate-500">
+            <button class="time-filter px-4 py-2 hover:text-slate-800 bg-slate-200 rounded" data-range="24h">24 hours</button>
+            <button class="time-filter px-4 py-2 hover:text-slate-800 bg-slate-200 rounded" data-range="12h">12 hours</button>
+            <button class="time-filter px-4 py-2 hover:text-slate-800 bg-slate-200 rounded" data-range="2h">2 hour</button>
+            <button class="time-filter px-4 py-2 hover:text-slate-800 bg-slate-200 rounded" data-range="1h">1 hour</button>
+        </div>
+        
         <div class="text-gray-900 flex flex-col items-center py-10">
 
             <div class="flex flex-wrap md:flex-nowrap justify-center gap-6 w-full max-w-5xl">

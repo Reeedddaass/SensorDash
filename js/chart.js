@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function fetchAndUpdateCharts(timeRange = "24h") {
         try {
-            const response = await fetch(`data.php?range=${timeRange}`);
+            const response = await fetch(`/backend/data.php?range=${timeRange}`);
             const text = await response.text();
 
             console.log("Server response:", text);

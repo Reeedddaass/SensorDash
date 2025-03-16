@@ -5,7 +5,7 @@ let sortDirection = { timestamp: "desc", temperature: "asc", humidity: "asc" };
 
 async function fetchData() {
     try {
-        const response = await fetch("data.php?range=all");
+        const response = await fetch("/backend/data.php?range=all");
         const text = await response.text();
         console.log("Server response:", text);
 

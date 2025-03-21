@@ -8,32 +8,47 @@
     </head>
     <body class="h-screen bg-slate-400">
 
-        <nav class="bg-slate-200 px-6 py-4 shadow-lg">
-            <div class="container mx-auto flex justify-between items-center">
+        <nav class="bg-slate-200 px-6 py-4 shadow-lg relative z-10">
+            <div class="container mx-auto flex justify-between items-center px-4">
+                
                 <p class="text-2xl font-bold text-slate-500">Dashboard</p>
-                <button id="menu-btn" class="md:hidden text-slate-500 hover:text-slate-800 focus:outline-none">☰</button>
-                <ul class="hidden md:flex space-x-6">
-                    <li>
-                        <a href="index.html" class="text-slate-500 hover:text-slate-800 transition-all">Charts</a>
-                    </li>
-                    <li>
-                        <a href="table.html" class="text-slate-500 hover:text-slate-800 transition-all">Table</a>
-                    </li>
-                </ul>
-                <ul id="mobile-menu" class="absolute top-16 left-0 w-full bg-slate-200 hidden flex-col space-y-4 p-4 md:hidden">
-                    <li>
-                        <a href="index.html" class="block text-slate-500 hover:text-slate-800">Charts</a>
-                    </li>
-                    <li>
-                        <a href="table.html" class="block text-slate-500 hover:text-slate-800">Table</a>
-                    </li>
-                </ul>
-            </div>
+
+                <div class="flex items-center space-x-4">
+                    <ul class="hidden md:flex space-x-6 items-center">
+                        <li><a href="index.html" class="text-slate-500 hover:text-slate-800 transition-all">Charts</a></li>
+                        <li><a href="table.html" class="text-slate-500 hover:text-slate-800 transition-all">Table</a></li>
+                    </ul>
+
+                    <div class="relative">
+                        <button id="latest-toggle" class="bg-slate-700 text-white px-4 py-1 rounded hover:bg-slate-600 transition-all">
+                            Latest
+                        </button>
+            
+                        <div id="snapshot" class="absolute mt-2 bg-slate-600 text-white p-4 border border-gray-900 rounded-md shadow-lg z-20 w-64
+                            left-1/2 -translate-x-1/2
+                            md:left-auto md:right-0 md:translate-x-0
+                            hidden opacity-0 translate-y-2 transition-all duration-300 ease-in-out">
+                            <p>🕒 <span id="snapshot-time">--</span></p>
+                            <p>🌡️ <span id="snapshot-temp">--</span>°C</p>
+                            <p>💧 <span id="snapshot-humi">--</span>%</p>
+                        </div>
+                    </div>
+
+                    <button id="menu-btn" class="md:hidden text-slate-500 hover:text-slate-800 focus:outline-none text-xl">☰</button>
+                </div>
+            </div>                      
+
+            <ul id="mobile-menu" class="absolute top-16 left-0 w-full bg-slate-200 hidden flex-col space-y-4 p-4 md:hidden z-10">
+                <li><a href="index.html" class="block text-slate-500 hover:text-slate-800">Charts</a></li>
+                <li><a href="table.html" class="block text-slate-500 hover:text-slate-800">Table</a></li>
+            </ul>
+
             <script>
                 document.getElementById('menu-btn').addEventListener('click', function () {
                     document.getElementById('mobile-menu').classList.toggle('hidden');
                 });
             </script>
+            <script type="module" src="./js/snapshot.js"></script>
         </nav>
 
         <div class="text-gray-900 flex flex-col items-center py-10">
@@ -57,6 +72,12 @@
             </div>            
         </div>
         
+        <button id="scroll-to-top"
+            class="fixed bottom-6 right-6 bg-slate-700 text-white text-xl w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-slate-600 
+            transition-opacity opacity-0 pointer-events-none z-50">
+            ▲
+        </button>
+
         <script type="module" src="./js/table.js"></script>
 
     </body>

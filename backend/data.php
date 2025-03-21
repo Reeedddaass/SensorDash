@@ -8,7 +8,6 @@
         die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
     }
 
-    // Input parameters
     $range = isset($_GET["range"]) ? $_GET["range"] : "24h";
     $offset = isset($_GET["offset"]) ? intval($_GET["offset"]) : 0;
     $limit = isset($_GET["limit"]) ? intval($_GET["limit"]) : 50;
@@ -17,10 +16,9 @@
     $sortBy = isset($_GET["sort_by"]) ? $_GET["sort_by"] : "timestamp";
     $sortDir = isset($_GET["sort_dir"]) && strtolower($_GET["sort_dir"]) === "asc" ? "ASC" : "DESC";
 
-    // Validation
     $validRanges = [
-        "1h" => "1 HOUR",
         "2h" => "2 HOUR",
+        "6h" => "6 HOUR",
         "12h" => "12 HOUR",
         "24h" => "24 HOUR",
         "all" => ""
@@ -36,7 +34,6 @@
         die(json_encode(["error" => "Invalid sort column"]));
     }
 
-    // Build query
     $query = "SELECT timestamp, temperature, humidity FROM weather_data";
 
     if ($validRanges[$range]) {
@@ -49,7 +46,6 @@
         $query .= " LIMIT $limit OFFSET $offset";
     }
 
-    // Execute query
     $result = $conn->query($query);
 
     if (!$result) {

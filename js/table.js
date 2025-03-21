@@ -108,3 +108,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.sortTable = sortTable;
+
+const scrollBtn = document.getElementById("scroll-to-top");
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 200) {
+        scrollBtn.classList.remove("opacity-0", "pointer-events-none");
+    } else {
+        scrollBtn.classList.add("opacity-0", "pointer-events-none");
+    }
+});
+
+scrollBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});

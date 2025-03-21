@@ -2,10 +2,22 @@ import { formatDateTime } from "./format_datetime.js";
 
 let weatherData = [];
 let sortDirection = { timestamp: "desc", temperature: "asc", humidity: "asc" };
+let activeSortColumn = "timestamp";
 
-async function fetchData() {
+let offset = 0;
+const limit = 50;
+let isFetching = false;
+let allDataLoaded = false;
+
+async function fetchDataChunk() {
+    if (isFetching || allDataLoaded) return;
+    isFetching = true;
+
     try {
-        const response = await fetch("/backend/data.php?range=all");
+        const sortBy = activeSortColumn;
+        const sortDir = sortDirection[sortBy];
+
+        const response = await fetch(`/backend/data.php?range=all&offset=${offset}&limit=${limit}&sort_by=${sortBy}&sort_dir=${sortDir}`);
         const text = await response.text();
         console.log("Server response:", text);
 
@@ -13,23 +25,22 @@ async function fetchData() {
 
         if (!Array.isArray(result)) {
             console.error("Invalid data format:", result);
-            return [];
+            return;
         }
 
-        return result;
+        if (result.length < limit) {
+            allDataLoaded = true;
+        }
+
+        weatherData = weatherData.concat(result);
+        offset += limit;
+
+        renderTable();
     } catch (error) {
         console.error("Error fetching data:", error);
-        return [];
+    } finally {
+        isFetching = false;
     }
-}
-
-async function loadTable() {
-    weatherData = await fetchData();
-
-    weatherData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-    renderTable();
-    updateSortIcons("timestamp");
 }
 
 function renderTable() {
@@ -44,7 +55,6 @@ function renderTable() {
 
     weatherData.forEach((entry) => {
         const row = document.createElement("tr");
-
         const formattedTimestamp = formatDateTime(entry.timestamp);
 
         row.innerHTML = `
@@ -56,30 +66,18 @@ function renderTable() {
         tableBody.appendChild(row);
     });
 
-    updateSortIcons();
+    updateSortIcons(activeSortColumn);
 }
 
-function sortTable(column) {
-    if (!weatherData.length) {
-        console.error("Error: No data available to sort.");
-        return;
-    }
-
+async function sortTable(column) {
     sortDirection[column] = sortDirection[column] === "asc" ? "desc" : "asc";
+    activeSortColumn = column;
 
-    weatherData.sort((a, b) => {
-        if (column === "timestamp") {
-            return sortDirection[column] === "asc"
-                ? new Date(a[column]) - new Date(b[column])
-                : new Date(b[column]) - new Date(a[column]);
-        } else {
-            return sortDirection[column] === "asc"
-                ? a[column] - b[column]
-                : b[column] - a[column];
-        }
-    });
+    weatherData = [];
+    offset = 0;
+    allDataLoaded = false;
 
-    renderTable();
+    await fetchDataChunk();
     updateSortIcons(column);
 }
 
@@ -99,6 +97,14 @@ function updateSortIcons(activeColumn = "timestamp") {
     });
 }
 
-document.addEventListener("DOMContentLoaded", loadTable);
+window.addEventListener("scroll", () => {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+        fetchDataChunk();
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetchDataChunk();
+});
 
 window.sortTable = sortTable;

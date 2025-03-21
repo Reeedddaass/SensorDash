@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function fetchAndUpdateCharts(timeRange = "24h") {
         try {
-            const response = await fetch(`/backend/data.php?range=${timeRange}`);
+            const response = await fetch(`/backend/data.php?range=${timeRange}&sort_by=timestamp&sort_dir=DESC&limit=0`);
             const text = await response.text();
 
             console.log("Server response:", text);
@@ -30,9 +30,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            const labels = data.map(entry => formatDateTime(entry.timestamp));
-            const temperatures = data.map(entry => parseFloat(entry.temperature));
-            const humidities = data.map(entry => parseFloat(entry.humidity));
+            const labels = data.map(entry => formatDateTime(entry.timestamp)).reverse();
+            const temperatures = data.map(entry => parseFloat(entry.temperature)).reverse();
+            const humidities = data.map(entry => parseFloat(entry.humidity)).reverse();
 
             updateTemperatureChart(labels, temperatures);
             updateHumidityChart(labels, humidities);

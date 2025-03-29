@@ -21,7 +21,8 @@
         "6h" => "6 HOUR",
         "12h" => "12 HOUR",
         "24h" => "24 HOUR",
-        "7d" => "168 HOUR",
+        "7d" => "7 DAY",
+        "30d" => "30 DAY",
         "all" => ""
     ];
 
@@ -38,14 +39,43 @@
     $query = "SELECT timestamp, temperature, humidity FROM weather_data";
 
     if ($validRanges[$range]) {
-        $query .= " WHERE timestamp >= NOW() - INTERVAL " . $validRanges[$range];
+        if ($range === "30d") {
+            $query = "
+                SELECT 
+                    DATE_FORMAT(timestamp, '%Y-%m-%dT%H:00:00') AS timestamp,
+                    ROUND(AVG(temperature), 2) AS temperature,
+                    ROUND(AVG(humidity), 2) AS humidity
+                FROM weather_data
+                WHERE timestamp >= NOW() - INTERVAL 720 HOUR
+                GROUP BY DATE_FORMAT(timestamp, '%Y-%m-%d %H:00:00')
+                ORDER BY timestamp
+            ";
+    
+            $result = $conn->query($query);
+    
+            if (!$result) {
+                error_log("Query failed: " . $conn->error);
+                die(json_encode(["error" => "Query failed: " . $conn->error]));
+            }
+    
+            $data = [];
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+    
+            echo json_encode($data);
+            $conn->close();
+            exit;
+        } else {
+            $query .= " WHERE timestamp >= NOW() - INTERVAL " . $validRanges[$range];
+        }
     }
-
+    
     $query .= " ORDER BY $sortBy $sortDir";
-
+    
     if ($applyLimit) {
         $query .= " LIMIT $limit OFFSET $offset";
-    }
+    }    
 
     $result = $conn->query($query);
 

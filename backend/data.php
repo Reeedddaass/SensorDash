@@ -46,10 +46,11 @@
                     ROUND(AVG(temperature), 2) AS temperature,
                     ROUND(AVG(humidity), 2) AS humidity
                 FROM weather_data
-                WHERE timestamp >= NOW() - INTERVAL 720 HOUR
+                WHERE timestamp >= NOW() - INTERVAL 30 DAY
                 GROUP BY DATE_FORMAT(timestamp, '%Y-%m-%d %H:00:00')
-                ORDER BY timestamp
+                ORDER BY DATE_FORMAT(timestamp, '%Y-%m-%d %H:00:00') DESC
             ";
+        
     
             $result = $conn->query($query);
     

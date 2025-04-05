@@ -39,19 +39,19 @@
     $query = "SELECT timestamp, temperature, humidity FROM weather_data";
 
     if ($validRanges[$range]) {
-        if ($range === "30d") {
+        if ($range === "30d" || $range === "7d") {
+            $interval = $range === "30d" ? "30 DAY" : "7 DAY";
             $query = "
                 SELECT 
                     DATE_FORMAT(timestamp, '%Y-%m-%dT%H:00:00') AS timestamp,
                     ROUND(AVG(temperature), 2) AS temperature,
                     ROUND(AVG(humidity), 2) AS humidity
                 FROM weather_data
-                WHERE timestamp >= NOW() - INTERVAL 30 DAY
+                WHERE timestamp >= NOW() - INTERVAL $interval
                 GROUP BY DATE_FORMAT(timestamp, '%Y-%m-%d %H:00:00')
                 ORDER BY DATE_FORMAT(timestamp, '%Y-%m-%d %H:00:00') DESC
             ";
-        
-    
+            
             $result = $conn->query($query);
     
             if (!$result) {

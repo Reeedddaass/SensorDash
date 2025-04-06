@@ -65,15 +65,35 @@
 
             <div class="flex flex-wrap md:flex-nowrap justify-center gap-6 w-full max-w-5xl">
                 <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
-                    <canvas id="tempChart" class="w-full h-64"></canvas>
+                    <canvas id="temperature-chart" class="w-full h-64"></canvas>
                 </div>
         
                 <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
-                    <canvas id="humiChart" class="w-full h-64"></canvas>
+                    <canvas id="humidity-chart" class="w-full h-64"></canvas>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap md:flex-nowrap justify-center gap-6 w-full max-w-5xl mt-8">
+                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
+                    <canvas id="bme-temperature-chart" class="w-full h-64"></canvas>
+                </div>
+        
+                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
+                    <canvas id="bme-humidity-chart" class="w-full h-64"></canvas>
                 </div>
             </div>
         
-            <script type="module" src="./js/chart.js"></script>
+            <div class="flex flex-wrap md:flex-nowrap justify-center gap-6 w-full max-w-5xl mt-8">
+                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
+                    <canvas id="bme-pressure-chart" class="w-full h-64"></canvas>
+                </div>
+        
+                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
+                    <canvas id="ldr-chart"" class="w-full h-64"></canvas>
+                </div>
+            </div>
+        
+            <script type="module" src="./js/charts.js"></script>
         
         </div>
         

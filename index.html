@@ -52,7 +52,7 @@
             <script type="module" src="./js/snapshot.js"></script>
         </nav>
 
-        <div class="flex space-x-2 p-4 bg-slate-600 text-slate-500">
+        <div class="flex justify-center space-x-2 p-4 bg-slate-600 text-slate-500">
             <button class="time-filter px-4 py-2 hover:text-slate-800 bg-slate-200 rounded" data-range="30d">30 days</button>
             <button class="time-filter px-4 py-2 hover:text-slate-800 bg-slate-200 rounded" data-range="7d">7 days</button>
             <button class="time-filter px-4 py-2 hover:text-slate-800 bg-slate-200 rounded" data-range="24h">24 hours</button>
@@ -61,41 +61,44 @@
             <button class="time-filter px-4 py-2 hover:text-slate-800 bg-slate-200 rounded" data-range="2h">2 hours</button>
         </div>
         
-        <div class="text-gray-900 flex flex-col items-center py-10">
+        <div class="text-gray-900 flex flex-col items-center py-10 space-y-8">
 
-            <div class="flex flex-wrap md:flex-nowrap justify-center gap-6 w-full max-w-5xl">
-                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
-                    <canvas id="temperature-chart" class="w-full h-64"></canvas>
-                </div>
-        
-                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
-                    <canvas id="humidity-chart" class="w-full h-64"></canvas>
-                </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-8xl px-4">
+              <div class="bg-white shadow-lg rounded-lg p-6">
+                <canvas 
+                  id="temperature-chart"
+                  class="w-full h-[300px] sm:h-[350px] lg:h-[450px]" 
+                  style="height: 300px;">
+                </canvas>
+              </div>
+              <div class="bg-white shadow-lg rounded-lg p-6">
+                <canvas 
+                  id="humidity-chart"
+                  class="w-full h-[300px] sm:h-[350px] lg:h-[450px]" 
+                  style="height: 300px;">
+                </canvas>
+              </div>
             </div>
 
-            <div class="flex flex-wrap md:flex-nowrap justify-center gap-6 w-full max-w-5xl mt-8">
-                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
-                    <canvas id="bme-temperature-chart" class="w-full h-64"></canvas>
-                </div>
-        
-                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
-                    <canvas id="bme-humidity-chart" class="w-full h-64"></canvas>
-                </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-8xl px-4">
+              <div class="bg-white shadow-lg rounded-lg p-6">
+                <canvas 
+                  id="bme-pressure-chart"
+                  class="w-full h-[300px] sm:h-[350px] lg:h-[450px]" 
+                  style="height: 300px;">
+                </canvas>
+              </div>
+              <div class="bg-white shadow-lg rounded-lg p-6">
+                <canvas 
+                  id="ldr-chart" 
+                  class="w-full h-[300px] sm:h-[350px] lg:h-[450px]" 
+                  style="height: 300px;">
+                </canvas>
+              </div>
             </div>
-        
-            <div class="flex flex-wrap md:flex-nowrap justify-center gap-6 w-full max-w-5xl mt-8">
-                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
-                    <canvas id="bme-pressure-chart" class="w-full h-64"></canvas>
-                </div>
-        
-                <div class="flex-1 bg-white shadow-lg rounded-lg p-6 min-w-[300px]">
-                    <canvas id="ldr-chart"" class="w-full h-64"></canvas>
-                </div>
-            </div>
-        
+          
             <script type="module" src="./js/charts.js"></script>
-        
-        </div>
-        
+          </div>
+          
     </body>
 </html>

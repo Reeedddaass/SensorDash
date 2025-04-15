@@ -1,13 +1,18 @@
 import { formatDateTime } from "./format_datetime.js";
 
-let temperatureChart, humidityChart;
-let bmeTemperatureChart, bmeHumidityChart, bmePressureChart;
-let ldrChart;
+let temperatureChart, humidityChart, bmePressureChart, ldrChart;
 
 function updateChart(chart, labels, data) {
   if (!chart) return;
   chart.data.labels = labels;
   chart.data.datasets[0].data = data;
+  chart.update();
+}
+
+function updateChartDataset(chart, datasetIndex, labels, data) {
+  if (!chart) return;
+  chart.data.labels = labels;
+  chart.data.datasets[datasetIndex].data = data;
   chart.update();
 }
 
@@ -22,8 +27,8 @@ async function fetchDHT22ChartData(range = "24h") {
     const tempData = data.map(entry => entry.temperature);
     const humiData = data.map(entry => entry.humidity);
 
-    updateChart(temperatureChart, labels, tempData);
-    updateChart(humidityChart, labels, humiData);
+    updateChartDataset(temperatureChart, 0, labels, tempData);
+    updateChartDataset(humidityChart, 0, labels, humiData);
   } catch (error) {
     console.error("Error fetching DHT22 chart data:", error);
   }
@@ -41,8 +46,8 @@ async function fetchBMEChartData(range = "24h") {
     const humiData = data.map(entry => entry.humidity);
     const pressureData = data.map(entry => entry.pressure);
 
-    updateChart(bmeTemperatureChart, labels, tempData);
-    updateChart(bmeHumidityChart, labels, humiData);
+    updateChartDataset(temperatureChart, 1, labels, tempData);
+    updateChartDataset(humidityChart, 1, labels, humiData);
     updateChart(bmePressureChart, labels, pressureData);
   } catch (error) {
     console.error("Error fetching BME280 chart data:", error);
@@ -75,61 +80,55 @@ function createCharts() {
     type: "line",
     data: {
       labels: [],
-      datasets: [{
-        label: "Temperature (°C)",
-        data: [],
-        borderColor: "#FF0000",
-        backgroundColor: "transparent",
-        borderWidth: 2,
-      }],
+      datasets: [
+        {
+          label: "DHT22 Temp (°C)",
+          data: [],
+          borderColor: "#FF0000",
+          backgroundColor: "transparent",
+          borderWidth: 2,
+        },
+        {
+          label: "BME280 Temp (°C)",
+          data: [],
+          borderColor: "#00FF00",
+          backgroundColor: "transparent",
+          borderWidth: 2,
+        },
+      ],
     },
-    options: { responsive: true },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+    },
   });
-
+  
   humidityChart = new Chart(ctx("humidity-chart"), {
     type: "line",
     data: {
       labels: [],
-      datasets: [{
-        label: "Humidity (%)",
-        data: [],
-        borderColor: "#FF0000",
-        backgroundColor: "transparent",
-        borderWidth: 2,
-      }],
+      datasets: [
+        {
+          label: "DHT22 Humidity (%)",
+          data: [],
+          borderColor: "#FF0000",
+          backgroundColor: "transparent",
+          borderWidth: 2,
+        },
+        {
+          label: "BME280 Humidity (%)",
+          data: [],
+          borderColor: "#00FF00",
+          backgroundColor: "transparent",
+          borderWidth: 2,
+        },
+      ],
     },
-    options: { responsive: true },
-  });
-
-  bmeTemperatureChart = new Chart(ctx("bme-temperature-chart"), {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        label: "BME Temp (°C)",
-        data: [],
-        borderColor: "#00FF00",
-        backgroundColor: "transparent",
-        borderWidth: 2,
-      }],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
     },
-    options: { responsive: true },
-  });
-
-  bmeHumidityChart = new Chart(ctx("bme-humidity-chart"), {
-    type: "line",
-    data: {
-      labels: [],
-      datasets: [{
-        label: "BME Humidity (%)",
-        data: [],
-        borderColor: "#00FF00",
-        backgroundColor: "transparent",
-        borderWidth: 2,
-      }],
-    },
-    options: { responsive: true },
-  });
+  });  
 
   bmePressureChart = new Chart(ctx("bme-pressure-chart"), {
     type: "line",
@@ -143,9 +142,12 @@ function createCharts() {
         borderWidth: 2,
       }],
     },
-    options: { responsive: true },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+    },
   });
-
+  
   ldrChart = new Chart(ctx("ldr-chart"), {
     type: "line",
     data: {
@@ -158,17 +160,30 @@ function createCharts() {
         borderWidth: 2,
       }],
     },
-    options: { responsive: true },
-  });
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  });  
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   createCharts();
 
-  const defaultRange = "24h";
-  fetchDHT22ChartData(defaultRange);
-  fetchBMEChartData(defaultRange);
-  fetchLDRChartData(defaultRange);
+  let currentRange = "24h";
+
+  const fetchAll = () => {
+    fetchDHT22ChartData(currentRange);
+    fetchBMEChartData(currentRange);
+    fetchLDRChartData(currentRange);
+  };
+
+  fetchAll();
+
+  const initialActive = document.querySelector(`[data-range="${currentRange}"]`);
+  if (initialActive) {
+    initialActive.classList.add("bg-slate-400", "text-white");
+  }
 
   const rangeLabels = document.querySelectorAll("[data-range]");
   rangeLabels.forEach(label => {
@@ -176,12 +191,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const range = label.getAttribute("data-range");
       if (!range) return;
 
-      rangeLabels.forEach(l => l.classList.remove("active"));
-      label.classList.add("active");
+      currentRange = range;
 
-      fetchDHT22ChartData(range);
-      fetchBMEChartData(range);
-      fetchLDRChartData(range);
+      rangeLabels.forEach(l => l.classList.remove("bg-slate-400", "text-white"));
+      label.classList.add("bg-slate-400", "text-white");
+
+      fetchAll();
     });
   });
+
+  setInterval(fetchAll, 300000);
 });

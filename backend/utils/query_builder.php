@@ -11,8 +11,16 @@ function get_valid_ranges() {
     ];
 }
 
-function get_valid_sort_columns() {
-    return ["timestamp", "temperature", "humidity"];
+function get_valid_sort_columns($table = null) {
+    switch ($table) {
+        case 'bme280_data':
+            return ['timestamp', 'temperature', 'humidity', 'pressure'];
+        case 'ldr_data':
+            return ['timestamp', 'light_level'];
+        case 'weather_data':
+        default:
+            return ['timestamp', 'temperature', 'humidity'];
+    }
 }
 
 function build_query($range, $sortBy, $sortDir, $offset, $limit, $table, $fields) {

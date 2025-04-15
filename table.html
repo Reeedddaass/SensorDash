@@ -9,76 +9,69 @@
     <body class="h-screen bg-slate-400">
 
         <nav class="bg-slate-200 px-6 py-4 shadow-lg relative z-10">
-            <div class="container mx-auto flex justify-between items-center px-4">
-                
-                <p class="text-2xl font-bold text-slate-500">Dashboard</p>
-
-                <div class="flex items-center space-x-4">
-                    <ul class="hidden md:flex space-x-6 items-center">
-                        <li><a href="index.html" class="text-slate-500 hover:text-slate-800 transition-all">Charts</a></li>
-                        <li><a href="table.html" class="text-slate-500 hover:text-slate-800 transition-all">Table</a></li>
-                    </ul>
-
-                    <div class="relative">
-                        <button id="latest-toggle" class="bg-slate-700 text-white px-4 py-1 rounded hover:bg-slate-600 transition-all">
-                            Latest
-                        </button>
-            
-                        <div id="snapshot" class="absolute mt-2 bg-slate-600 text-white p-4 border border-gray-900 rounded-md shadow-lg z-20 w-64
-                            left-1/2 -translate-x-1/2
-                            md:left-auto md:right-0 md:translate-x-0
-                            hidden opacity-0 translate-y-2 transition-all duration-300 ease-in-out">
-                            <p>🕒 <span id="snapshot-time">--</span></p>
-                            <p>🌡️ <span id="snapshot-temp">--</span>°C</p>
-                            <p>💧 <span id="snapshot-humi">--</span>%</p>
-                        </div>
-                    </div>
-
-                    <button id="menu-btn" class="md:hidden text-slate-500 hover:text-slate-800 focus:outline-none text-xl">☰</button>
+          <div class="container mx-auto flex justify-between items-center px-4">
+            <p class="text-2xl font-bold text-slate-500">Dashboard</p>
+      
+            <div class="flex items-center space-x-4">
+              <ul class="hidden md:flex space-x-6 items-center">
+                <li><a href="index.html" class="text-slate-500 hover:text-slate-800 transition-all">Charts</a></li>
+                <li><a href="table.html" class="text-slate-500 hover:text-slate-800 transition-all">Table</a></li>
+              </ul>
+      
+              <div class="relative">
+                <button id="latest-toggle" class="bg-slate-700 text-white px-4 py-1 rounded hover:bg-slate-600 transition-all">
+                  Latest
+                </button>
+      
+                <div id="snapshot" class="absolute mt-2 bg-slate-600 text-white p-4 border border-gray-900 rounded-md shadow-lg z-20 w-64
+                    left-1/2 -translate-x-1/2
+                    md:left-auto md:right-0 md:translate-x-0
+                    hidden opacity-0 translate-y-2 transition-all duration-300 ease-in-out">
+                  <p>🕒 <span id="snapshot-time">--</span></p>
+                  <p>🌡️ <span id="snapshot-temp">--</span>°C</p>
+                  <p>💧 <span id="snapshot-humi">--</span>%</p>
                 </div>
-            </div>                      
-
-            <ul id="mobile-menu" class="absolute top-16 left-0 w-full bg-slate-200 hidden flex-col space-y-4 p-4 md:hidden z-10">
-                <li><a href="index.html" class="block text-slate-500 hover:text-slate-800">Charts</a></li>
-                <li><a href="table.html" class="block text-slate-500 hover:text-slate-800">Table</a></li>
-            </ul>
-
-            <script>
-                document.getElementById('menu-btn').addEventListener('click', function () {
-                    document.getElementById('mobile-menu').classList.toggle('hidden');
-                });
-            </script>
-            <script type="module" src="./js/snapshot.js"></script>
+              </div>
+      
+              <button id="menu-btn" class="md:hidden text-slate-500 hover:text-slate-800 focus:outline-none text-xl">☰</button>
+            </div>
+          </div>
+      
+          <ul id="mobile-menu" class="absolute top-16 left-0 w-full bg-slate-200 hidden flex-col space-y-4 p-4 md:hidden z-10">
+            <li><a href="index.html" class="block text-slate-500 hover:text-slate-800">Charts</a></li>
+            <li><a href="table.html" class="block text-slate-500 hover:text-slate-800">Table</a></li>
+          </ul>
+      
+          <script>
+            document.getElementById('menu-btn').addEventListener('click', function () {
+              document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+          </script>
+          <script type="module" src="./js/snapshot.js"></script>
         </nav>
 
-        <div class="text-gray-900 flex flex-col items-center py-10">
-            <div class="overflow-x-auto w-full max-w-4xl p-6">
-                <table class="min-w-full bg-white border rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-slate-600 text-white font-semibold">
-                        <tr class="border border-slate-600">
-                            <th class="py-4 px-6 cursor-pointer text-left border border-slate-700" onclick="sortTable('timestamp')">
-                                Timestamp <span id="timestamp-sort" class="ml-2 text-sm">▼</span>
-                            </th>
-                            <th class="py-4 px-6 cursor-pointer text-left border border-slate-700" onclick="sortTable('temperature')">
-                                Temperature (°C) <span id="temperature-sort" class="ml-2 text-sm">▲</span>
-                            </th>
-                            <th class="py-4 px-6 cursor-pointer text-left border border-slate-700" onclick="sortTable('humidity')">
-                                Humidity (%) <span id="humidity-sort" class="ml-2 text-sm">▲</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="data-table" class="text-center divide-y divide-slate-700"> </tbody>
-                </table>
-            </div>            
+        <div class="flex justify-center space-x-2 p-4 bg-slate-600 text-slate-500">
+          <button class="sensor-filter px-4 py-2 bg-slate-200 hover:text-slate-800 rounded" data-sensor="dht22">dht22</button>
+          <button class="sensor-filter px-4 py-2 bg-slate-200 hover:text-slate-800 rounded" data-sensor="bme280">bme280</button>
+          <button class="sensor-filter px-4 py-2 bg-slate-200 hover:text-slate-800 rounded" data-sensor="ldr">ldr</button>
         </div>
-        
+
+        <div class="text-gray-900 flex flex-col items-center py-10">
+          <div class="overflow-x-auto w-full max-w-4xl p-6">
+            <table class="min-w-full bg-white border rounded-lg shadow-md overflow-hidden">
+              <thead id="table-head" class="bg-slate-600 text-white font-semibold"></thead>
+              <tbody id="data-table" class="text-center divide-y divide-slate-700"></tbody>
+            </table>
+          </div>
+        </div>
+
         <button id="scroll-to-top"
-            class="fixed bottom-6 right-6 bg-slate-700 text-white text-xl w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-slate-600 
-            transition-opacity opacity-0 pointer-events-none z-50">
-            ▲
+          class="fixed bottom-6 right-6 bg-slate-700 text-white text-xl w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-slate-600 
+          transition-opacity opacity-0 pointer-events-none z-50">
+          ▲
         </button>
 
         <script type="module" src="./js/table.js"></script>
-
-    </body>
+      
+    </body>      
 </html>

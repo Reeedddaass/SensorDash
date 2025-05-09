@@ -1,0 +1,23 @@
+CREATE DATABASE IF NOT EXISTS weather_base;
+USE weather_base;
+
+CREATE TABLE IF NOT EXISTS weather_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    temperature FLOAT NOT NULL,
+    humidity INT NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS weather_bme280 (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    temperature FLOAT NOT NULL,
+    humidity INT NOT NULL,
+    pressure FLOAT NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS weather_ldr (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    light_level INT NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
